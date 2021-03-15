@@ -1,5 +1,3 @@
-import sys
-
 from components.Market import *
 from components.Client import *
 
@@ -18,12 +16,27 @@ def answer_check(right_border):
 
 if __name__ == "__main__":
 	# Начало программы
-	# Создаем случайного клиента
-	rich_client = Client("Богатый Покупатель", 100000, 100000)
-	poor_client = Client("Бедный Покупатель", 100, 30)
-	print("Вы зашли в магазин.Что вы хотите сделать?\n1.Выбрать товары\n2.Выйти")
+	# Создаем клиентов
+	accounts = [Client("Миллионер", 100000, 100000), Client("Средний Покупатель", 500, 1000), Client("Бедный Покупатель", 100, 30)]
+	print("Вы зашли в магазин.Что вы хотите сделать? \n1. Выберите аккаунт \n2. Выйти")
 	answer = answer_check(2)
 	if answer == 1:
-		market = Market(poor_client)
+		print("Доступные аккаунты: ")
+		for item in accounts:
+			print(item.name)
+		chosen_account = accounts[answer_check(len(accounts)) - 1]
 	elif answer == 2:
 		sys.exit(1)
+	print("\nАккаунт выбран. Выберите дальнейшие действия:")
+	while True:
+		print("\n1. Выбрать товары \n2. Посмотреть баланс \n3. Выйти")
+		answer = answer_check(3)
+		if answer == 1:
+			market = Market(chosen_account)
+			break
+		elif answer == 2:
+			chosen_account.show_info()
+			continue
+		elif answer == 2:
+			break
+	sys.exit(1)
