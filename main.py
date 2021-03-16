@@ -5,9 +5,9 @@ from components.Client import *
 def answer_check(right_border):
 	while True:
 		try:
-			to_check = input(">> ")
-			if right_border >= int(to_check) >= 1:
-				return int(to_check)
+			to_check = int(input(">> "))
+			if right_border >= to_check >= 1:
+				return to_check
 			else:
 				raise BaseException
 		except BaseException or ValueError:
@@ -17,7 +17,7 @@ def answer_check(right_border):
 if __name__ == "__main__":
 	# Начало программы
 	# Создаем клиентов
-	accounts = [Client("Миллионер", 100000, 100000), Client("Средний Покупатель", 500, 1000), Client("Бедный Покупатель", 100, 30)]
+	accounts = [Client("Миллионер", 100000, 10000), Client("Средний Покупатель", 500, 1000), Client("Бедный Покупатель", 100, 30)]
 	print("Вы зашли в магазин.Что вы хотите сделать? \n1. Выберите аккаунт \n2. Выйти")
 	answer = answer_check(2)
 	if answer == 1:
