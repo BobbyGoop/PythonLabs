@@ -19,5 +19,5 @@ class Market:
         for item in self.stock:
             print(
                 f"{counter}) {item.name} - {item.price} {'руб' if type(item) is PkgProduct else 'руб/кг'} "
-                + f"(осталось: {item.stock_amount} {'упаковок' if type(item) is PkgProduct else 'кг'})1")
+                + f"(осталось: {item.stock_amount} {'упаковок' if type(item) is PkgProduct else 'кг'})")
             counter += 1

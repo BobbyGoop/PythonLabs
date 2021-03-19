@@ -15,7 +15,7 @@ class Client:
         print(self.name + "\nНаличные: " + str(self.cash) + "\nБонусы: " + str(self.bonus))
 
     def show_cart(self):
-        print("\nСостав корзины: ")
+        print("Состав корзины: ")
         counter = 1
         for item in self.products:
             print(
@@ -30,7 +30,7 @@ class Client:
         return check
 
     def remove_product(self, amount, flag=False, market=None, weight=0):
-        print("Вот ваш список товаров: \n")
+        print("\nВот ваш список товаров: ")
         while True:
             self.show_cart()
             print("Выберите товар, который необходимо удалить: ")
@@ -72,19 +72,24 @@ class Client:
             else:
                 self.products.append(market.stock[answer - 1])
                 market.stock[answer - 1].stock_amount -= 1
+                weight = 1
 
             # Костыль для реализации goto
             answer = 0
             while answer != 1 and answer != 3:
                 print("\nХотите продолжить выбор? \n1. Да \n2. Выложить товар \n3. Перейти к оплате")
                 answer = answer_check(3)
-                if answer == 2:
-                    self.remove_product(0, True, market=market, weight=weight)
+                if answer == 2 and len(self.products) != 0:
+                    self.remove_product(0, True, market, weight )
+                    continue
+                elif answer == 2 and len(self.products) == 0:
+                    print("Ваша корзина пустая !")
                     continue
             if answer == 1:
                 continue
             if answer == 3:
                 return
+
 
     def pay_check(self):
         self.show_cart()
@@ -106,7 +111,8 @@ class Client:
         check = self.full_price()
         if answer == 1:
             if check <= self.cash:
-                print("Вы успешно купили товары. Поздравляем!")
+                print("Вы успешно купили товары. Поздравляем!" if check > 0
+                      else "Вы успешно ничего не купили. Поздравляем! (нет)")
                 print("Ваша сдача: " + str(self.cash - self.full_price()))
                 sys.exit(1)
             else:
@@ -122,7 +128,8 @@ class Client:
                     sys.exit(1)
         elif answer == 2:
             if check <= self.bonus:
-                print("Вы успешно купили товары. Поздравляем!")
+                print("Вы успешно купили товары. Поздравляем!" if check > 0
+                      else "Вы успешно ничего не купили. Поздравляем! (нет)")
                 print(f"Оставшиеся бонусы: {self.bonus - check}")
                 sys.exit(1)
             else:
@@ -138,6 +145,9 @@ class Client:
         elif answer == 3:
             # Если суммарно не хватает, то товар удаляется до вступления в if-elif
             # Если суммы бонусов и наличных хватате, то дополнительная проверка не нужна.
+            if check == 0:
+                print("Вы успешно ничего не купили. Поздравляем! (нет)")
+                sys.exit(1)
             if check <= self.bonus:
                 print("Чек был оплачен бонусами. Поздравляем!")
                 print(f"Оставшиеся бонусы: {self.cash - check}")
