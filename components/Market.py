@@ -12,7 +12,7 @@ class Market:
         self.stock.append(BulkProduct("Фрукты", 20, 150))
         self.stock.append(BulkProduct("Овощи", 20, 150))
         self.client.add_products(self)
-        self.client.pay_check()
+        self.client.pay_check(self)
 
     def show_products(self):
         counter = 1

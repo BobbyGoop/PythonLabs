@@ -91,13 +91,13 @@ class Client:
                 return
 
 
-    def pay_check(self):
+    def pay_check(self, market):
         self.show_cart()
         print(f"Полная сумма: {self.full_price()} рублей")
         print(f"У вас есть {self.cash} рублей и {self.bonus} баллов")
         if self.cash + self.bonus < self.full_price():
             print("Вам не хватает суммарных средств для оплаты товара. Выложите что либо из корзины")
-            if not self.remove_product(self.cash + self.bonus):
+            if not self.remove_product(self.cash + self.bonus, market=market):
                 print(
                     "Вы выложили все товары из корзины, и, видимо, у Вас совсем нет средств.\n Запустите программу "
                     "снова, чтобы взять другие продукты. ")

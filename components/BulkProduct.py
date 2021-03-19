@@ -13,4 +13,4 @@ class BulkProduct(AbstractProduct):
 		return self.stock_amount
 
 	def get_cost(self):
-		return self.price * self.amount
+		return self.price * self.weight
