@@ -58,21 +58,24 @@ class Client:
         while True:
             market.show_products()
             answer = answer_check(6)
-            if answer == 6:
-                break
-            elif answer == 4 or answer == 5:
-                print("Необходимо взвевисить товар, прежде чем положить в корзину.")
-                print(
-                    f"Пожалуйста, введите число от 1 до {market.stock[answer - 1].show_rest()} (оставшееся количество "
-                    f"на складе)")
-                weight = answer_check(market.stock[answer - 1].show_rest())
-                market.stock[answer - 1].stock_amount -= weight
-                self.products.append(market.stock[answer - 1])
-                self.products[-1].set_weight(weight)
+            if market.stock[answer-1].show_rest() != 0:
+                if answer == 6:
+                    break
+                elif answer == 4 or answer == 5:
+                    print("Необходимо взвевисить товар, прежде чем положить в корзину.")
+                    print(
+                        f"Пожалуйста, введите число от 1 до {market.stock[answer - 1].show_rest()} (оставшееся количество "
+                        f"на складе)")
+                    weight = answer_check(market.stock[answer - 1].show_rest())
+                    market.stock[answer - 1].stock_amount -= weight
+                    self.products.append(market.stock[answer - 1])
+                    self.products[-1].set_weight(weight)
+                else:
+                    self.products.append(market.stock[answer - 1])
+                    market.stock[answer - 1].stock_amount -= 1
+                    weight = 1
             else:
-                self.products.append(market.stock[answer - 1])
-                market.stock[answer - 1].stock_amount -= 1
-                weight = 1
+                print ("Товара, который вы выбрали, нет в наличии")
 
             # Костыль для реализации goto
             answer = 0
@@ -117,7 +120,7 @@ class Client:
                 sys.exit(1)
             else:
                 print("Вам не хватает средств")
-                if self.remove_product(self.cash):
+                if self.remove_product(self.cash, market = market):
                     print("Вы успешно купили товары. Поздравляем!")
                     print("Итоговая сумма: " + str(self.full_price()) + " Ваша сдача: " + str(
                         self.cash - self.full_price()))
@@ -134,7 +137,7 @@ class Client:
                 sys.exit(1)
             else:
                 print("Вам не хватает средств")
-                if self.remove_product(self.bonus):
+                if self.remove_product(self.bonus, market = market):
                     print("Вы успешно купили товары. Поздравляем!")
                     print(f"Итоговая сумма: {self.bonus - check}")
                     sys.exit(1)
